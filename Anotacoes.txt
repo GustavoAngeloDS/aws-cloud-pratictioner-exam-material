@@ -1,0 +1,246 @@
+Introdução - Tópicos de estudo do treinamento para o exame
+
+- What is cloud?
+- Instances EC2 (VM Cloud)
+- Storage S3
+- IAM (Users, groups and structure control)
+- Billing and pricing in AWS
+- Security
+
+<==================================================================================================>
+
+Exam topics
+  Cloud concepts          - 26%
+  Security and compliance - 25%
+  Technology              - 33%
+  Billing and pricing     - 16%
+
+<==================================================================================================>
+
+What is cloud computing?
+  Aluguel de máquinas de terceiros
+  Empresas com grande poder de processamento / infraestrutura que alugam máquinas para terceiros a um 
+  custo muito mais viável do que criar as máquinas fisicamente.
+  Fácil personalização de poder de processamento da máquina alugada.
+
+  "A computação em nuvem é a entrega de recursos de TI sob demanda por meio da Internet com definição 
+  de preço de pagamento conforme o uso. Em vez de comprar, ter e manter datacenters e servidores físicos, 
+  você pode acessar serviços de tecnologia, como capacidade computacional, armazenamento e bancos de dados, 
+  conforme a necessidade, usando um provedor de nuvem como a Amazon Web Services (AWS)."
+
+Vantagens ao migrar para cloud computing:
+  1. Capital expense X Varible expense
+    Capital expense:
+      Valor calculado que ficará até o fim do projeto. Uma estimativa fixa de valores baseado em horas de utilização.
+    Varible expense:
+      Custos variáveis;
+  
+  2. Economies of scale 
+    Quanto mais clientes migram para o cloud, menor o custo dos serviços da AWS. Quanto mais usuários, mais 
+    hardwares podem ser adquiridos por um preço reduzido.
+  
+  3. Guessing capacity - Elasticity
+    Advinhação de capacidade/utilização. Imprevisibilidade na utilização de hardware.
+    Na estrutura Cloud, podemos iniciar com capacidades mínimas e a partir do momento que o tráfego aumenta,
+    podemos ir escalando a capacidade de processamento, eliminando o guessing capacity (advinhação) gerando menos gastos.
+
+  4. Speed and agility
+    Upgrade de hardware em poucos cliques com extrema velocidade e agilidade. Muito ao contrário de
+    um possível upgrade em servidores com administração própria.
+  
+  5. Maintaining data center
+    Com cloud, a administração e manutenção dos data centers passam a ser realizadas pela empresa de cloud.
+    Refrigeração, segurança, troca de hardware, recursos de backup e etc.
+  
+  6. Go live in minutes
+    Velocidade na compra, configuração e do serviço.
+    Em pouco tempo um projeto pode estar online utilizando cloud computing.
+  
+<==================================================================================================>
+
+Cloud Types
+  - IAAS 
+  - PAAS 
+  - SAAS
+
+  IAAS - Infraestructure as a Services
+    Trabalhar com estrutura física (da AWS), sem que a AWS acessem seus dados.
+    Criação de um servidor em EC2 por exemplo: Adquire o servidor e realiza definição de hardware da AWS sem que ela
+    administre a sua infraestrutura.
+
+  PAAS - Plataform as a service
+    Criação de um site (apenas hospedagem sem contato com definição de hardware). Preocupação apenas com a 
+    aplicação ou web page. Recursos de provisionamento ou configurações de infraestrutura ficam encapsulados.
+
+  SAAS - Software as a service
+    Só a utilização de software - Infraestrutura ou upload de uma página / aplicação fica totalmente encapsulado.
+    Aqui entramos no conceito apenas de utilizaçao de um software. Exemplo: GMAIL
+
+<==================================================================================================>
+
+Cloud deployments
+  - Public cloud
+  - Hybrid
+  - Private cloud / On premise
+
+  Public cloud 
+    É um provedor de nuvem, exemplo: AWS, Azure, Google cloud plataform (GCP).
+    Realizam toda a administração física das máquinas e nos proporcionam o funcionamento do serviço de nuvem.
+  
+  Hybrid
+    Junção entre public e private - É um misto. Funcionalidades existem na nuvem publica e ao mesmo tempo é administrada 
+    internamente. Ambos podem se comunicar.
+  
+  Private / On premise
+    A própria empresa realiza o gerenciamento do data center. Updates, atualizações, firewalls e é 
+    realizado por conta própria.
+
+<==================================================================================================>
+
+AWS services
+  Principal services:
+    EC2                - Virtual servers in the cloud
+    EC2 Auto Scaling   - Computing scaling on demand
+    S3                 - Scalable storage in the cloud
+    AWS Lambda         - Running code without servers
+    ECS                - Running containers in the cloud
+    Amazon API Gategay - Building, deploying and managing APIs
+    Amazon RDS         - Managed relational database service
+  
+  EC2
+    Serviço web que disponibiliza capacidade computacional segura e dimensionável na nuvem.
+    Escolha de processador, armazenamento, rede e sistema operacional.
+    Infraestrutura escalável sob demanda. 
+    Atualmente possui 24 regiões e 77 zonas de disponibilidade no mundo.
+    Unica nuvem que suporta macOS
+  
+  EC2 Auto Scaling
+    Serviço que detecta picos de utilização ou integridade de uma instancia ativa. Caso necessário
+    O EC2 Auto Scaling ativa uma nova instancia para manter o aumentar a disponibilidade da aplicação.
+    Os gatilhos para o Auto Scaling ser ativado podem ser parametrizadas.
+    Possui escalabilidade agendada, dinâmica e preditiva (usa machine learning para identificar horários de pico)
+    Monitora integridade das instancias, substitui instancias com falha automaticamente e balanceia 
+    capacidade entre as zonas de disponibilidade.
+    Within Amazon EC2 Auto Scaling, you can use two approaches: dynamic scaling and predictive scaling.
+    - Dynamic scaling responds to changing demand. 
+    - Predictive scaling automatically schedules the right number of Amazon EC2 instances based on predicted demand.
+  
+  S3
+    Serviço de armazenamento escalável, seguro e performático.
+
+  AWS Lambda 
+    Serviço de execução de códigos sem precisar configurar servidores.
+    O código é executado a cada solicitação. Custo é gerado apenas por tempo de execução e não por
+    infraestrutura superprovisionada.
+
+  ECS
+    Serviço de orquestração de containers que permite o deploy, administração e escala dos containers da aplicação.
+  
+  Amazon API Gategay
+    É a porta de entrada para requisições em serviços de API.
+    Exemplo: o Gateway pode realizar uma requisição para um serviço interno da AWS ou externo. Porém o usuário final sempre
+    realizará a chamada para o gateway da AWS (ele sim tem a flexibilidade de apontar a requisição para outros endereços).
+
+  Amazon RDS
+    Serviço de gerenciamento de banco de dados relacionais. 
+    Possibilita escalar e subir instancias de banco de dados sem a necessidade de configuração de máquinas
+    ou softwares.
+  
+<==================================================================================================>
+
+Global Infraestructure  (https://aws.amazon.com/pt/about-aws/global-infrastructure/)
+  Two common terms
+    - Regions
+    - Availability zone
+  
+  Regions
+    Normalmente são os países.
+  
+  Availability zones
+    São data centers dentro de uma região.
+
+<==================================================================================================>
+
+Free tier 
+  Duração de 12 meses 
+
+<==================================================================================================>
+
+EC2 - Elastic Compute Cloud
+  Divisão das máquinas por Instance Types
+    General Purpose
+    Compute Optimized     - CPU
+    Memory Optimized      - MEM RAM
+    Accelerated Computing - GPU + CPU
+    Storage Optimized     - HDD
+
+  Pricing
+    4 modelos de cobrança na AWS
+      On-demand (Entre todos é o mais caro)
+        Personaliza hardware e sistema operacional e já pode ficar online.
+        
+      Saving Plans - Exige termo de vínculo por 1 ou 3 anos para contratação.
+
+      Reserverd - Já sabe exatamente quanto utilizará de trafego e poder de processamento (veio de uma migração) - 1 ou 3 anos
+        Standard    - Deve escolher um tipo de máquina e não pode fazer upgrade (valor inferior ao convertible)
+        Convertible - Deve escolher um tipo de máquina e pode realizar upgrade posterior (valor é maior que standard)
+
+      Spot - Define as configurações de hardware e o prazo máximo de utilização (Prazo determinado) e não exige contrato de tempo
+      mínimo.
+
+      Dedicated Host - Instituições governamentais ou bancos - Maior nível de segurança
+        Adquire o hardware fisicamente e paga ele por completo - Pode adquirir via on-demand ou reserved
+
+<==================================================================================================>
+
+EBS - Elastic Block Store
+  São um conjunto de pequenos espaços em discos que acabam originando um disco virtual.
+  São flexíveis, podem ser aumentados.
+  
+  Tipos de volume - Volumn Types
+    SSD's and HDD's
+      SSD (Alta quantidade de IOPS - Throughput muito maior (leitura e escrita))
+        Backed General Purpose(GP2)  - Tem uma velocidade de transferencia alta, porém não tanto quanto o provisioned IOPS
+        Backed Provisioned IOPS      - Atinge as maiores taxas de transferencias e menores latências
+      HDD
+        Backed cold - Discos com leitura reduzida, serve para armazenar backups ou arquivos não utilizados frequentmente
+        Throughput  - Discos mais rápidos. Devem armazenar arquivos constantemente utilizados. 
+    
+<==================================================================================================>
+
+Elastic Load balancer - Divide a carga de trafego das instancias destinos. Altamente ligado a performance e disponibilidade da aplicação.
+  O Load balancer redireciona o tráfego para que todas as instâncias trabalhem com a mesma carga.
+  Load balancer pode trabalhar juntamente com o AutoScaling. As instancias sobem e o ELB redireciona as requisições para eles.
+  Types of load balancers
+    - Application
+    - Gateway
+    - Network
+    - Classic (pouco usado)
+  
+<==================================================================================================>
+
+AutoScaling
+  Provisionamento automático de instancias para acompanhar o aumento espontâneo do tráfego.
+
+ 
+
+  Precisa-se definir o group, template e options
+    Group    - Grupo de máquinas que o AutoScaling deve observar (as máquinas que o tráfego chega normalmente)
+    Template - Quais são as máquinas ou tipos de máquinas que vão ser escaladas
+    Options  - As regras do gatilho para iniciar o escalonamento horizontal
+
+  Tipos de AutoScaling
+    All times      - Mantem um número determinado de instancias ativas.
+    Scale Manually - Definição manual da quantidade de instancias ativas.
+    Schedule       - Definição de períodos em que as instancias deverão subir ou serem desligadas
+    On Demand      - Defininção por regras que verificam o grupo de máquinas iniciais
+    Predictive     - Utilizando com outros serviços. Outros serviços avisam o autoscaling que estão sendo sobrecarregados e precisam de um escalonamento.
+
+<==================================================================================================>
+<==================================================================================================>
+<==================================================================================================>
+<==================================================================================================>
+<==================================================================================================>
+
+Vertical Scaling -> Upgrade hardware of a machine
+Horizontal Scaling -> Upgrade how many machines are running together.
