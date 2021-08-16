@@ -179,14 +179,15 @@ EC2 - Elastic Compute Cloud
       On-demand (Entre todos é o mais caro)
         Personaliza hardware e sistema operacional e já pode ficar online.
         
-      Saving Plans - Exige termo de vínculo por 1 ou 3 anos para contratação.
+      Saving Plans - Exige termo de vínculo por 1 ou 3 anos para contratação. 
+      É recomendada quando envolve uma carga de trabalho consistente (já conhece a utilização de hardware)
 
       Reserverd - Já sabe exatamente quanto utilizará de trafego e poder de processamento (veio de uma migração) - 1 ou 3 anos
         Standard    - Deve escolher um tipo de máquina e não pode fazer upgrade (valor inferior ao convertible)
         Convertible - Deve escolher um tipo de máquina e pode realizar upgrade posterior (valor é maior que standard)
 
       Spot - Define as configurações de hardware e o prazo máximo de utilização (Prazo determinado) e não exige contrato de tempo
-      mínimo.
+      mínimo. Ideal para cargas de trabalho ou ações que podem iniciar e parar a qualquer momento
 
       Dedicated Host - Instituições governamentais ou bancos - Maior nível de segurança
         Adquire o hardware fisicamente e paga ele por completo - Pode adquirir via on-demand ou reserved
@@ -239,8 +240,219 @@ AutoScaling
 <==================================================================================================>
 <==================================================================================================>
 <==================================================================================================>
-<==================================================================================================>
-<==================================================================================================>
 
 Vertical Scaling -> Upgrade hardware of a machine
 Horizontal Scaling -> Upgrade how many machines are running together.
+
+<==================================================================================================>
+
+Serviços que trabalham ajudando no conceito de arquitetura pouco acopladas:
+    Amazon Simple Notification Service (Amazon SNS)
+      A diferença entre o SQS é que ele pode enviar notificações para o consumidor final.
+      SNS topic -> Mensagens a serem enviadas (mobile notification, email ou sms)
+    Amazon Simple Queue service (Amazon SQS)
+      Enviar, amarzenar e reeber mensagens entre os sistemas no sistema de filas.
+      O payload são os dados da mensagem que são protegidos.
+      As mensagens ficam nas filas (Queues) até serem processadas.
+
+<==================================================================================================>
+
+AWS Lambda (SERVERLESS)
+  Permite fazer o upload do código e toda a infraestrutura e escalonamento automático é feito pela AWS.
+  Informações ou configurações do servidor e acessos ficam abstraidos.
+  É focado em processos que levam menos de 15 minutos para serem executados.
+  O código é executado apenas quanto um gatilho pré determinado é chamado. 
+  É pago por tempo de execução.
+
+Amazon Elastic Container Service (Amazon ECS)
+  Gerenciador de containers altamente escalável e de alta performance que permite que nós mesmos
+  executemos e escalemos componentes. Suporta containers Docker.
+
+Amazon Elastic Kubernetes Service (Amazon EKS)
+  Basicamente mesma coisa do ECS porém para Kubernetes ao invés de Docker.
+
+ECS e EKS trabalham utilizando o EC2 (Caso queira manipular o sistema operacional e configurações).
+Eles também podem trabalhar com o Amazon Fargate (Caso queira abstrair acesso a servidores. É administrado pela AWS).
+
+<==================================================================================================>
+
+AWS S3 (SIMPLE STORAGE SERVICE)
+  Armazenamento por buckets (pastas) -> Precisam ter nome únicos (identificadores)
+  Armazena qualquer tipo de documento dentro do servidor.
+
+  Cada arquivo/objeto pode ter até 5TB
+  O bucket possui armazenamento ilimitado
+
+  Possui uma divisão de armazenamento por Storage Classes
+    Standard, Intelligent-Tiering, Standard-IA (Infrequent Access), One Zone-IA, Glacier, Glacier Deep Archive
+    Respectivamente cada um é a frequencia de acesso aos arquivos. Um lugar onde cada arquivo pode estar.
+    Dependendo do storage class os arquivos podem ser replicados para outras Availability zones (os primeiros)
+    Até o One-zone IA os arquivos são disponibilizados no mesmo segundo para download (quanto solicitado), 
+    outros podem demorar até horas.
+
+    Podemos usar o S3 Object Tagging para organizar objetos em buckets
+
+    O preço é realizado se baseando no espaço utilizado pelo bucket e pela taxa de transferência  
+
+<==================================================================================================>
+
+Cloud Front (CDN)
+  Cópia de dados da origin (origem) para edge locations.
+    Faz com que os usuários peguem/acessem os arquivos que estão mais próximos deles, pegando os dados da edge locations
+    ao invés da origem.
+    A origem pode ser por exemplo arquivos de bucket S3 ou um arquivo de uma instância EC2.
+  
+  O Amazon CloudFront é um serviço rápido de rede de entrega de conteúdo (CDN) que entrega dados, vídeos, 
+  aplicativos e APIs a clientes em todo o mundo com segurança, baixa latência e altas velocidades de transferência 
+  em um ambiente de uso facilitado para desenvolvedores.
+
+  A rede de entrega de conteúdo (CDN) é arquitetada para manter os objetos por mais tempo no cache e para reduzir 
+  a rotatividade de cache. Técnicas como cache hierárquico e otimização de deduplicação de objetos no cache ajudam
+  a maximizar a retenção de cache.
+
+  Possui a configuração de TTL (Time to Live). É o tempo máximo que um arquivo fica dentro da edge location
+  Isso evita situações de falta de sincronia entre o que está na origem e o que foi atualizado pela CDN.
+
+<==================================================================================================>
+
+IAM (Identity Acess Management)
+  Segmentação de acessos dentro do ambiente AWS
+  Criação de regras (Policies), permissões e definições de níveis de acesso dentro do ambiente AWS
+
+  MFA - Multi-Factor Autentication
+    Camada extra de segurança -> Autenticação de 2 fatores
+    Solicitação de usuário e senha na plataforma + visualização de token no aplicativo
+
+  É possível criar grupos de usuários
+    Para cada grupo podemos associar os serviços liberados ao grupo
+  
+  É possível criar usuários
+    Tipos de acesso: Programmatic access - Acesso via linha de comando, CLI, API da AWS
+                     AWS Management Console - Acesso a interface visualização
+    Deve-se vincular o usuário criado com um grupo (este sim possui as permissões)
+  
+  É possível criar politicas de senhas para os usuários
+
+<==================================================================================================>
+
+Billing
+  Pay as you go
+  Pay as you use
+  Pay less as you use more
+  Pay even less when you reserve
+
+Capex vs Opex
+  Capex (Capital expenditure) - Paga antes de utilizar (geralmente mais caro)
+  Opex (Operational expenditure) - Paga de acordo com a utilização (on demand)
+
+<==================================================================================================>
+
+Budget vs Explorer
+
+Budget - Orçamento disponível ou que você consegue alocar para os serviços da AWS
+  Pode definir alertas quando o valor de orçamento mensal estiver próximo de ser alcançado (pode definir o quão próximo)
+
+Cost Explorer - Relatório de Billing
+  Mostra com o que foi gasto ou está gastando, quando, quanto e onde (quais serviços)
+
+<==================================================================================================>
+
+AWS Plans
+  Basic Plan - Tem acesso a documentação da AWS (Self Service) porém não tem acesso ao suporte telefônico
+  Developer Plan - Tem acesso para enviar emails para a AWS (Cloud support associate). 
+    Possui tempo de resposta de aproximadamente 12 horas.
+  Business Plan - Suporte com chat, email e telefone. Tempo de resposta geralmente 1 hora.
+  Enterprise Plan - Suporte 24x7, todos os anteriores e tempo de resposta em 15 minutos. 
+    Possui um TAM (Technical Account Manager)
+
+<==================================================================================================>
+
+AWS Organizations
+  Segmentação e provisionamento de recursos dentro da empresa.
+  Consegue verificar os gastos por setores
+
+  É possível criar uma Organizational Unit
+  Adiciona contas (usuários) para cada uma das Organizational Unit (OU)
+
+  É possível criar Policies para cada organização criada (Setor Y pode acessar os serviços 1, 2 e 3, por exemplo)
+
+<==================================================================================================>
+
+AWS Pricing Calculator
+  Permite criar o serviço, configurar e verificar a estimativa de gasto final por ele
+
+<==================================================================================================>
+
+AWS Compliance
+  A AWS possui certificações reconhecidas de segurança para processamento de dados, armazenamento de dados sigilosos e etc.
+  Isso não significa que o ambiente que configuramos também tenha o mesmo nível de segurança.
+
+AWS Artifact
+  O AWS Artifact, disponível no console, é um portal de autoatendimento para recuperação de artefatos de
+  auditoria que oferece aos clientes acesso sob demanda à documentação de conformidade e aos acordos da AWS.
+
+  Especificações necessárias para que a topologia criada seja certificada pelas entidades.
+
+<==================================================================================================>
+
+Responsability Model
+  AWS garante a segurança DA nuvem
+  Customer deve garantir a segurança NA nuvem
+
+  AWS
+    Camada de Software de SO (Do HyperVisor)
+    Camada de Hardware Compute, Storage, Database, networking
+  
+  Customer
+    Aplicações, identificação e controle de acesso da estrutura criada
+    Sistema operacional, configurações de rede e firewall
+    Integridade dos dados, criptografia, arquivos do sistema, trafego e proteção de rede
+
+<==================================================================================================>
+
+AWS WAF vs AWS Shield
+  Web Application Firewall (WAF)
+    Um serviço para controlar o trafego na camada OSI 7.
+    Consegue verificar o que é trafego genuíno ou scripts maliciosos
+    Deve ser habilitado a frente das VPCs
+  
+  Shield
+    Verifica o aumento de volume de requisições e analisa se as requisições são genuinas ou não
+    Se as requisições forem maliciosas, recusa a solicitação.
+    Protege contra ataques de negação de serviço (DDOS)
+
+<==================================================================================================>
+
+  AWS Inspector
+    Um agent que pode rodar na instância, inspeciona todo o ambiente e relata problemas de segurança
+  
+  AWS Trusted Advisor
+    Trabalha em tempo real e sugere as melhores práticas de custo, segurança, performance e etc.
+  
+  AWS Cloud Trail
+    Monitorar API Calls ou AWS Console
+    Verificação de ações executadas pela linha de comando ou chamada de APIs.
+    É uma auditoria de chamadas e alterações dentro da topologia.
+
+<==================================================================================================>
+
+  Amazon Athena
+    Consegue buscar informações dos objetos que estão em um bucket S3 e jogam para um gráfico no AmazonQuickSight
+
+    O que é o Amazon Athena?
+    É um serviço de consultas interativas que facilita a análise de dados no Amazon S3 usando SQL padrão. 
+    O Athena não usa servidor, de forma que não existe uma infraestrutura para configurar ou gerenciar; é possível 
+    começar a analisar os dados imediatamente. Não é necessário nem mesmo carregar dados no Athena, 
+    ele trabalha diretamente com os dados armazenados no S3.
+    Ajuda a analisar os dados armazenados no Amazon S3.
+  
+  Amazon Macie
+  O que é o Amazon Macie?
+  É um serviço de segurança e privacidade de dados totalmente gerenciado que usa machine learning e correspondência 
+  de padrões para descobrir e proteger seus dados confidenciais na AWS.
+  O Macie detecta automaticamente uma lista grande e crescente de tipos de dados confidenciais, incluindo informações
+  pessoalmente identificáveis (PII), como nomes, endereços e números de cartão de crédito. 
+  Também oferece visibilidade constante da segurança e privacidade de seus dados armazenados no Amazon S3
+
+<==================================================================================================>
+
